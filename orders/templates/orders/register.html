@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container" style="position: relative; left: 25%;">
+        <form action="{%url 'register' %}" id="register" class="m-5" method="POST">{% csrf_token %}
+            {% if message_fail %}
+            <div class="alert alert-danger" role="alert">
+                {{message_fail}}
+            </div>
+        {% endif %}
+            <label for="">Enter First Name</label><br>
+            <input class="rounded" type="text" name="first_name">
+            <br>
+            <label for="">Enter Last name</label><br>
+            <input type="text" name="last_name">
+            <br>
+            <label for="">Enter Username</label><br>
+            <input type="text" name="username">
+            <br>
+            <label for="">Email</label><br>
+            <input type="text" name="email">
+            <br>
+            <label for="">Password</label><br>
+            <input type="password" name="password">
+            <br>
+            <label for="">Confirm Password</label><br>
+            <input type="password" name="password2">
+            <br><br>
+            <button class="bg-info text-white rounded">Signin</button>
+        </form>
+    </div>
+{% endblock  %}

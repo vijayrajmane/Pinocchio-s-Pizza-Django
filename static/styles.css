@@ -1,0 +1,23 @@
+body{
+  background-image: url('image.jpeg');
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.cart{
+  float: right;
+  width: 20%;
+}
+
+#center_box{
+  height: 30em; 
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white; 
+  overflow:scroll;  
+}
+
+.food_category{
+  float: left;
+  width: 20%;
+}

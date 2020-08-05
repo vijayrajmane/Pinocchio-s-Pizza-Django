@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<ul class="list-unstyled">
+    <div>
+        {% for order in All_orders%} 
+        <li class="m-3">
+           <a href="/manageorder/{{order.user}}/{{order.order_number}}"> Order No.: {{order.order_number}} by {{order.user}}</a> <span style="float: right; margin-right:5px;" > Status:  <p class="" style="display: inline; color: green;">{{order.status}} </p> <button class="bg-info" ><a style="color: white;" href="/complete/{{order.user}}/{{order.order_number}}">Order Complete</a></button></span> 
+           <hr class='bg-info'>
+        </li>
+    {% endfor %}
+    </div>
+    {% if Checkout %}
+        <hr class='bg-info'>
+        {% for check_cat in Checkout_category %}
+            <li class='text-info text-center pr-3'>{{check_cat|cut:"("|cut:")"|cut:","|cut:"'"}}</li>
+            {% for row in Checkout %}
+                {% if row.category == check_cat|cut:"("|cut:")"|cut:","|cut:"'"  %}
+                    <li class='pr-3 text-center'>{{row}}&nbsp;</li>
+                {% endif %}
+            {% endfor %}
+        {% endfor %} 
+        <hr class='bg-info'>
+        <li class='text-info text-center pr-3 '><h1><small class='text-white'>Total</small> ${{Total|floatformat:2}}</h1></li>
+    {% endif %}
+</ul>
+{% endblock %}

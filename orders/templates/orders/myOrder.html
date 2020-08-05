@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <ul class="list-unstyled">
+        <div>
+            {% for order in All_orders%} 
+            <li class=" mt-3">
+               Order No.: {{order.order_number}}<button class="bg-info rounded ml-2"><a class="text-white" href="/myorder/{{order.order_number}}">View Order</a></button> <span style="float: right; margin-right:5px;" > Status:  <p class="" style="display: inline; color: green;">{{order.status}}</p> </span> 
+            </li>
+            
+        {% endfor %}
+        </div>
+        {% if Checkout %}
+            <hr class='bg-info'>
+            {% for check_cat in Checkout_category %}
+                <li class='text-info text-center pr-3'>{{check_cat|cut:"("|cut:")"|cut:","|cut:"'"}}</li>
+                {% for row in Checkout %}
+                    {% if row.category == check_cat|cut:"("|cut:")"|cut:","|cut:"'"  %}
+                        <li class='pr-3 text-center'>{{row}}&nbsp;</li>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %} 
+            <hr class='bg-info'>
+            <li class='text-info text-center pr-3 '><h1><small class='text-white'>Total</small> ${{Total|floatformat:2}}</h1></li>
+            {% if Status == 'initiated'%}
+            <li><button class="bg-info w-100 rounded p-2 mr-3 text-white"><a href="/confirm/{{Order_number}}" style="color: white;">Confirm</a></button></li>
+            {% endif %}
+        {% endif %}
+    </ul>
+{% endblock %}

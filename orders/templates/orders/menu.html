@@ -1,0 +1,97 @@
+{% extends 'base.html'%}
+{% block content%}
+<dir class="p-3">
+    <h2 class="text-center"><b>{{Current_category}}</b></h2>
+    {% if Columns == 3 %}
+    <table class='table'>
+        <thead class='thead-light'>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Small</th>
+            <th scope="col">Large</th>
+          </tr>
+          <br>
+        </thead>
+        <tbody>
+            {% for row in Menu%}
+          <tr>
+            {% load static %}
+            <td>{{row.Name}}</td>
+            <td>{{row.small_price}} $&nbsp;
+              {% if not user.is_superuser%}
+              <a href="/add/{{Current_category}}/{{row.Name}}/{{row.small_price}}">
+                  <img class='plus' src="{% static 'plus.png' %}">  
+              </a>
+              {% endif %}
+            </td>
+
+            <td>{{row.large_price}} $&nbsp;
+              {% if not user.is_superuser%}
+              <a href="/add/{{Current_category}}/{{row.Name}}/{{row.large_price}}">
+                <img class='plus' src="{% static 'plus.png' %}">
+              </a>
+            </td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+
+      {% if Columns == 2 %}
+    <table class='table '>
+        <thead class='thead-light'>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+
+        <tbody>
+            {% for row in Menu%}
+          <tr>
+            <td>{{row.Name}}</td>
+            <td>{{row.price}} $&nbsp;
+              {% if not user.is_superuser%}
+              <a href="/add/{{Current_category}}/{{row.Name}}/{{row.price}}">
+                <img class='plus' src="{% static 'plus.png' %}">
+              </a>
+              {% endif %}
+            </td>
+            
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+
+      {% if Columns == 1 %}
+      <table class='table text-center '>
+        <thead class='thead-light'>
+            <tr >
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in Menu %} 
+            
+            <tr>
+                <td>{{row.Name}}&nbsp;
+                  {% if not user.is_superuser%}
+                  <a href="/add/{{Current_category}}/{{row.Name}}/{{Topping_price}}">
+                    <img class='plus' src="{% static 'plus.png' %}">
+                  </a>
+                  {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        {% endif %}
+      </table>
+        
+</dir>
+    
+    
+
+    
+{% endblock %}

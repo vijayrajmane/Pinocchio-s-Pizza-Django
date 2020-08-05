@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/styles.css">
+    
+
+
+    <title>Pinocchio's Pizza </title>
+  </head>
+  <body >
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">
+        <img src="/static/0.png" width="30" height="30" class="d-inline-block align-top" alt="">
+        Pinocchio's Pizza & Subs
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      {% if request.user.is_authenticated %}
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          </li>
+          {% if user.is_superuser%}
+              <li class="nav-item">
+                <a class="nav-link" href="/manageorder/{{user}}/{{Order_number}}">Manage Orders</a>
+              </li>
+          {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="/myorder/{{Order_number}}">My Orders</a>
+              </li>
+              
+          {% endif %}
+          
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        </form>
+      </div>
+      {% endif %}
+    </nav>
+
+
+    <div style="margin-top: 10em;">
+
+      {% if Category %}
+      {% if user.is_superuser%}
+      {% else %}
+      <div class=" cart text-right mt-0 mb-4">
+        <h2 class="text-info mr-4 ">Checkout</h2>
+        <hr class='bg-info'>
+
+       <ul class="list-unstyled ">      
+          {% for check_cat in Checkout_category %}
+            <li class='text-info text-right pr-3'>{{check_cat|cut:"("|cut:")"|cut:","|cut:"'"}}</li>
+            {% for row in Checkout %}
+              {% if row.category == check_cat|cut:"("|cut:")"|cut:","|cut:"'"  %}
+                <li style="color: white;" class='pr-3'>{{row}}&nbsp;<a href="{% url 'delete' row.category row.name row.price %}"><img class='plus rounded' src="/static/minus.png"></a></li>
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+        </ul>
+        <hr class='bg-info'>
+        <h3 class='text-info text-right pr-3'>Total : $ {{Total|floatformat:2}} </h3>
+        <button class="bg-info w-50 rounded p-2 mr-5 text-white " > <a style="color: white;" href="/myorder/{{Order_number}}">Place Order</a></button>
+      </div>
+      {% endif%}
+      
+      {% endif %}
+
+      <div class=" food_category list-group text-center"  >
+        {% if Category %}
+          {% for category in Category %}
+              <a id="foodCategory" class="list-group-item text-center list-group-item-action text-info text-right pr-3" href="/menu/{{category}}" style="background-color: transparent;color: black;"><h4>{{category}}</h4></a>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+
+      <div id='center_box' class='w-50  mx-auto '>
+        {% block content %}
+        {% endblock %}  
+      </div>
+       
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    
+  </body>
+</html>
